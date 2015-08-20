@@ -10,12 +10,12 @@ _volume() {
 }
 
 _heure() {
-    heure=$(date '+%Hh %Mm')
+    heure=$(date '+%I:%M %p')
     heure=`echo -e "\x05[$heure]"`
 }
 
 _date() {
-    date=$(date '+%A %d %B')
+    date=$(date '+%A, %B %d')
     date=`echo -e "\x01[$date]"`
 }
 
