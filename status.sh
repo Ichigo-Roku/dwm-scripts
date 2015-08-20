@@ -68,6 +68,13 @@ _bright() {
     bright=`echo -e "\x05[$bright%]"`
 }
 
+_light() {
+    max=`cat /sys/class/leds/smc::kbd_backlight/max_brightness`
+    actual=`cat /sys/class/leds/smc::kbd_backlight/brightness`
+    light=`echo $(( ($actual * 100) / $max ))`
+    light=`echo -e "\x01[$light%]"`
+}
+
 status() {
     for arg in $@; do
 	_${arg}
@@ -76,4 +83,4 @@ status() {
     echo "$args"
 }
 
-status bright moc kernel uptime date heure volume bat
+status light bright moc kernel uptime date heure volume bat
