@@ -14,7 +14,7 @@ _volume() {
 }
 
 _heure() {
-    heure=$(date '+%I:%M %p')
+    heure=$(date '+%I:%M%P')
     heure=`echo -e "\x01$heure"`
 }
 
