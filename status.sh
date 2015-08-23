@@ -3,39 +3,16 @@ _bat() {
     bat=`echo -e "\x06Battery $bat%"`
 }
 
-_volume() {
-    status=$(amixer get Master | grep "Mono: P" | awk '{print $6}')
-    if [ "$status" = "[on]" ] ; then
-	volume=$(amixer get Master | grep "Mono: P" | awk '{print $4}' | grep -oE "[[:digit:]]{1,}"%)
-	volume=`echo -e "\x05Volume $volume"`
-    else
-	volume=`echo -e "\x05Volume muted"`
-    fi
-}
-
-_time() {
-    time=$(date '+%I:%M%P')
-    time=`echo -e "\x01$time"`
-}
-
 _date() {
     date=$(date '+%A, %B %d')
     date=`echo -e "\x06$date"`
 }
 
-_uptime() {
-    uptime=$(cut -d'.' -f1 /proc/uptime)
-    mins=$((${uptime}/60%60))
-    hours=$((${uptime}/3600%24))
-    days=$((${uptime}/86400))
-    uptime="${mins}m"
-    if [ "${hours}" -ne "0" ]; then
-	uptime="${hours}h ${uptime}"
-    fi
-    if [ "${days}" -ne "0" ]; then
-	uptime="${days}d ${uptime}"
-    fi
-    uptime=`echo -e "\x05Uptime $uptime"`
+_kbd() {
+    max=`cat /sys/class/leds/smc::kbd_backlight/max_brightness`
+    actual=`cat /sys/class/leds/smc::kbd_backlight/brightness`
+    kbd=`echo $(( ($actual * 100) / $max ))`
+    kbd=`echo -e "\x01Keyboard $kbd%"`
 }
 
 _kernel() {
@@ -66,11 +43,34 @@ _screen() {
     screen=`echo -e "\x05Screen $screen%"`
 }
 
-_kbd() {
-    max=`cat /sys/class/leds/smc::kbd_backlight/max_brightness`
-    actual=`cat /sys/class/leds/smc::kbd_backlight/brightness`
-    kbd=`echo $(( ($actual * 100) / $max ))`
-    kbd=`echo -e "\x01Keyboard $kbd%"`
+_time() {
+    time=$(date '+%I:%M%P')
+    time=`echo -e "\x01$time"`
+}
+
+_uptime() {
+    uptime=$(cut -d'.' -f1 /proc/uptime)
+    mins=$((${uptime}/60%60))
+    hours=$((${uptime}/3600%24))
+    days=$((${uptime}/86400))
+    uptime="${mins}m"
+    if [ "${hours}" -ne "0" ]; then
+	uptime="${hours}h ${uptime}"
+    fi
+    if [ "${days}" -ne "0" ]; then
+	uptime="${days}d ${uptime}"
+    fi
+    uptime=`echo -e "\x05Uptime $uptime"`
+}
+
+_volume() {
+    status=$(amixer get Master | grep "Mono: P" | awk '{print $6}')
+    if [ "$status" = "[on]" ] ; then
+	volume=$(amixer get Master | grep "Mono: P" | awk '{print $4}' | grep -oE "[[:digit:]]{1,}"%)
+	volume=`echo -e "\x05Volume $volume"`
+    else
+	volume=`echo -e "\x05Volume muted"`
+    fi
 }
 
 status() {
@@ -81,4 +81,4 @@ status() {
     echo "$args"
 }
 
-status kbd screen moc kernel uptime date time volume bat
+status volume bat kbd screen moc kernel uptime date time
