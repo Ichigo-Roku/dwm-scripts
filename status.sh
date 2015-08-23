@@ -49,12 +49,12 @@ _moc() {
     else
 	art=$(mocp -Q %artist)
 	tit=$(mocp -Q %song)
-	if [ $(echo "$art - $tit" | wc -m) -gt "99" ]; then
-	    mus=$(echo "$tit from $art"  | cut -b 1-99)
-	    moc=`echo -e "\x06Listening to $mus..."`
+	if [ $(echo "$$tit ($art)" | wc -m) -gt "99" ]; then
+	    mus=$(echo "$tit ($art)"  | cut -b 1-99)
+	    moc=`echo -e "\x06Music $mus..."`
 	else
-	    mus="$tit from $art"
-	    moc=`echo -e "\x06Listening to $mus"`
+	    mus="$tit ($art)"
+	    moc=`echo -e "\x06Music $mus"`
 	fi
     fi
 }
