@@ -55,10 +55,10 @@ _uptime() {
     days=$((${uptime}/86400))
     uptime="${mins}"
     if [ "${hours}" -ne "0" ]; then
-	uptime="${hours}:${uptime}"
+	uptime="${hours}h${uptime}m"
     fi
     if [ "${days}" -ne "0" ]; then
-	uptime="${days}:${uptime}"
+	uptime="${days}d${uptime}"
     fi
     uptime=`echo -e "\x06Uptime $uptime"`
 }
