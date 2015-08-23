@@ -53,7 +53,7 @@ _uptime() {
     mins=$((${uptime}/60%60))
     hours=$((${uptime}/3600%24))
     days=$((${uptime}/86400))
-    uptime="${mins}"
+    uptime="${mins}m"
     if [ "${hours}" -ne "0" ]; then
 	uptime="${hours}h${uptime}m"
     fi
