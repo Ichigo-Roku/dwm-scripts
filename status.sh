@@ -1,16 +1,15 @@
 _bat() {
     bat=`cat /sys/class/power_supply/BAT0/capacity`
-    bat=`echo -e "\x06battery at $bat%"`
+    bat=`echo -e "\x06battery $bat%"`
 }
 
 _volume() {
     status=$(amixer get Master | grep "Mono: P" | awk '{print $6}')
     if [ "$status" = "[on]" ] ; then
 	volume=$(amixer get Master | grep "Mono: P" | awk '{print $4}' | grep -oE "[[:digit:]]{1,}"%)
-	volume=`echo -e "\x05volume at $volume"`
-    else
-	volume="muted"
 	volume=`echo -e "\x05volume $volume"`
+    else
+	volume=`echo -e "\x05volume muted"`
     fi
 }
 
@@ -36,7 +35,7 @@ _uptime() {
     if [ "${days}" -ne "0" ]; then
 	uptime="${days}d ${uptime}"
     fi
-    uptime=`echo -e "\x05uptime of $uptime"`
+    uptime=`echo -e "\x05uptime $uptime"`
 }
 
 _kernel() {
@@ -46,8 +45,7 @@ _kernel() {
 
 _moc() {
     if [ -z $(mocp -Q %state | grep PLAY) ]; then
-	mus="off"
-	moc=`echo -e "\x06music $mus"`
+	moc=`echo -e "\x06music off"`
     else
 	art=$(mocp -Q %artist)
 	tit=$(mocp -Q %song)
@@ -65,14 +63,14 @@ _screen() {
     max=`cat /sys/class/backlight/intel_backlight/max_brightness`
     actual=`cat /sys/class/backlight/intel_backlight/actual_brightness`
     screen=`echo $(( ($actual * 100) / $max ))`
-    screen=`echo -e "\x05screen at $screen%"`
+    screen=`echo -e "\x05screen $screen%"`
 }
 
 _kbd() {
     max=`cat /sys/class/leds/smc::kbd_backlight/max_brightness`
     actual=`cat /sys/class/leds/smc::kbd_backlight/brightness`
     kbd=`echo $(( ($actual * 100) / $max ))`
-    kbd=`echo -e "\x01keyboard at $kbd%"`
+    kbd=`echo -e "\x01keyboard $kbd%"`
 }
 
 status() {
