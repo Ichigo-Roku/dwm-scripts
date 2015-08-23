@@ -61,18 +61,18 @@ _moc() {
     fi
 }
 
-_bright() {
+_screen() {
     max=`cat /sys/class/backlight/intel_backlight/max_brightness`
     actual=`cat /sys/class/backlight/intel_backlight/actual_brightness`
-    bright=`echo $(( ($actual * 100) / $max ))`
-    bright=`echo -e "\x05screen brightness at $bright%"`
+    screen=`echo $(( ($actual * 100) / $max ))`
+    screen=`echo -e "\x05screen at $screen%"`
 }
 
-_light() {
+_kbd() {
     max=`cat /sys/class/leds/smc::kbd_backlight/max_brightness`
     actual=`cat /sys/class/leds/smc::kbd_backlight/brightness`
-    light=`echo $(( ($actual * 100) / $max ))`
-    light=`echo -e "\x01keyboard brightness at $light%"`
+    kbd=`echo $(( ($actual * 100) / $max ))`
+    kbd=`echo -e "\x01keyboard at $kbd%"`
 }
 
 status() {
@@ -83,4 +83,4 @@ status() {
     echo "$args"
 }
 
-status light bright moc kernel uptime date heure volume bat
+status kbd screen moc kernel uptime date heure volume bat
