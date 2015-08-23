@@ -13,9 +13,9 @@ _volume() {
     fi
 }
 
-_heure() {
-    heure=$(date '+%I:%M%P')
-    heure=`echo -e "\x01$heure"`
+_time() {
+    time=$(date '+%I:%M%P')
+    time=`echo -e "\x01$time"`
 }
 
 _date() {
@@ -81,4 +81,4 @@ status() {
     echo "$args"
 }
 
-status kbd screen moc kernel uptime date heure volume bat
+status kbd screen moc kernel uptime date time volume bat
