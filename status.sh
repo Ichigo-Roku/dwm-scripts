@@ -41,7 +41,7 @@ _uptime() {
 
 _kernel() {
     kernel=`uname -r`
-    kernel=`echo -e "\x01kernel $kernel"`
+    kernel=`echo -e "\x01linux $kernel"`
 }
 
 _moc() {
