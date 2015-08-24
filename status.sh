@@ -23,7 +23,7 @@ _kernel() {
 
 _moc() {
     if [ -z $(mocp -Q %state | grep PLAY) ]; then
-	moc=`echo -e "\x01music off"`
+	moc=`echo -e "\x01music\x06off"`
     else
 	art=$(mocp -Q %artist)
 	tit=$(mocp -Q %song)
@@ -59,7 +59,7 @@ _volume() {
 	volume=$(amixer get Master | grep "Mono: P" | awk '{print $4}' | grep -oE "[[:digit:]]{1,}"%)
 	volume=`echo -e "\x01volume\x06$volume"`
     else
-	volume=`echo -e "\x01volume muted"`
+	volume=`echo -e "\x01volume\x06muted"`
     fi
 }
 
