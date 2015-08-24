@@ -1,38 +1,32 @@
 _bat() {
     bat=`cat /sys/class/power_supply/BAT0/capacity`
-    bat=`echo -e "\x05Battery $bat%"`
+    bat=`echo -e "\x01battery\x06$bat%"`
 }
 
 _date() {
     date=$(date '+%A, %B %d')
-    date=`echo -e "\x05$date"`
+    date=`echo -e "\x01$date"`
 }
 
 _kbd() {
     max=`cat /sys/class/leds/smc::kbd_backlight/max_brightness`
     actual=`cat /sys/class/leds/smc::kbd_backlight/brightness`
     kbd=`echo $(( ($actual * 100) / $max ))`
-    kbd=`echo -e "\x01Keyboard $kbd%"`
+    kbd=`echo -e "\x01keyboard\x06$kbd%"`
 }
 
 _kernel() {
     kernel=`uname -r`
-    kernel=`echo -e "\x01Linux $kernel"`
+    kernel=`echo -e "\x01linux\x06$kernel"`
 }
 
 _moc() {
     if [ -z $(mocp -Q %state | grep PLAY) ]; then
-	moc=`echo -e "\x05Music off"`
+	moc=`echo -e "\x01music off"`
     else
 	art=$(mocp -Q %artist)
 	tit=$(mocp -Q %song)
-	if [ $(echo "$$tit ($art)" | wc -m) -gt "99" ]; then
-	    mus=$(echo "$tit ($art)"  | cut -b 1-99)
-	    moc=`echo -e "\x05Music $mus..."`
-	else
-	    mus="$tit ($art)"
-	    moc=`echo -e "\x05Music $mus"`
-	fi
+	moc=`echo -e "\x01listening\x06$tit\x01from\x06$art"`
     fi
 }
 
@@ -40,12 +34,12 @@ _screen() {
     max=`cat /sys/class/backlight/intel_backlight/max_brightness`
     actual=`cat /sys/class/backlight/intel_backlight/actual_brightness`
     screen=`echo $(( ($actual * 100) / $max ))`
-    screen=`echo -e "\x06Screen $screen%"`
+    screen=`echo -e "\x01screen\x06$screen%"`
 }
 
 _time() {
     time=$(date '+%I:%M%P')
-    time=`echo -e "\x01$time"`
+    time=`echo -e "\x06$time"`
 }
 
 _uptime() {
@@ -60,23 +54,23 @@ _uptime() {
     if [ "${days}" -ne "0" ]; then
 	uptime="${days}d${uptime}"
     fi
-    uptime=`echo -e "\x06Uptime $uptime"`
+    uptime=`echo -e "\x01uptime\x06$uptime"`
 }
 
 _volume() {
     status=$(amixer get Master | grep "Mono: P" | awk '{print $6}')
     if [ "$status" = "[on]" ] ; then
 	volume=$(amixer get Master | grep "Mono: P" | awk '{print $4}' | grep -oE "[[:digit:]]{1,}"%)
-	volume=`echo -e "\x06Volume $volume"`
+	volume=`echo -e "\x01volume\x06$volume"`
     else
-	volume=`echo -e "\x06Volume muted"`
+	volume=`echo -e "\x01volume muted"`
     fi
 }
 
 status() {
     for arg in $@; do
 	_${arg}
-	args="${args} `eval echo '$'$arg`"
+	args="${args}  `eval echo '$'$arg`"
     done
     echo "$args"
 }
