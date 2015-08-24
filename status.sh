@@ -5,7 +5,8 @@ _bat() {
 
 _date() {
     date=$(date '+%A, %B %d')
-    date=`echo -e "\x01$date"`
+    time=$(date '+%I:%M%P')
+    date=`echo -e "\x01$date\x06$time"`
 }
 
 _kbd() {
@@ -35,11 +36,6 @@ _screen() {
     actual=`cat /sys/class/backlight/intel_backlight/actual_brightness`
     screen=`echo $(( ($actual * 100) / $max ))`
     screen=`echo -e "\x01screen\x06$screen%"`
-}
-
-_time() {
-    time=$(date '+%I:%M%P')
-    time=`echo -e "\x06$time"`
 }
 
 _uptime() {
@@ -75,4 +71,4 @@ status() {
     echo "$args"
 }
 
-status volume bat kbd screen moc kernel uptime date time
+status volume bat kbd screen moc kernel uptime date
